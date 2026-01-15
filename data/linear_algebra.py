@@ -33,6 +33,21 @@ class LinearAlgebra():
                 res.set_item(i, j, el)
 
         return res
+    
+    @staticmethod
+    def sum_matrix(m1: Matrix, m2: Matrix) -> Matrix:
+        s1, s2 = m1.size(), m2.size()
+        
+        if s1 != s2:
+            raise ValueError('Matrixes have different sizes')
+        
+        res = Matrix([[0. for _ in range(s1[1])] for _ in range(s1[0])])
+        for i in range(s1[0]):
+            for j in range(s1[1]):
+                el = m1.get_item(i, j) + m2.get_item(i, j)
+                res.set_item(i, j, el)
+
+        return res
         
     @staticmethod
     def mult_mm(m1: Matrix, m2: Matrix) -> Matrix:
