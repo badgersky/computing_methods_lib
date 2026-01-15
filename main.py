@@ -7,6 +7,7 @@ if __name__ == '__main__':
     m1 = Matrix([[1, 2, 3, 4], [3, 4, 4, 5]])
     m2 = Matrix([[1, 5, 2, 5], [1, 1, 1, 1]])
     m3 = Matrix([[1, 0], [0, 1], [2, 4], [5, 6]])
+    m4 = Matrix([[1, 2, 3, 4], [4, 5, 6, 7], [7, 8, 9, 10], [8, 9, 10, 11]])
     v1 = Vector([1, 2, 3, 4])
     v2 = Vector([1, 1, 1, 1])
 
@@ -15,3 +16,8 @@ if __name__ == '__main__':
     print(f'{LA.sum_vectors(v1, v2)}')
     print(f'{LA.mult_mm(m1, m3)}')
     print(f'{LA.mult_mv(m1, v2)}')
+    L, U, D = LA.decompose_LUD(m4)
+    print(m4)
+    print(L)
+    print(U)
+    print(D)

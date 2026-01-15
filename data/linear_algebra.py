@@ -76,3 +76,22 @@ class LinearAlgebra():
 
         return res
     
+    @staticmethod
+    def decompose_LUD(m: Matrix) -> tuple[Matrix, Matrix, Matrix]:
+        r, c = m.size()
+        if r <= 1 and c <= 1:
+            raise ValueError('Matrix is to small to decompose')
+        
+        empty = [[0. for _ in range(c)] for _ in range(r)]
+        L, D, U = Matrix(empty), Matrix(empty), Matrix(empty)
+        for i in range(r):
+            for j in range(c):
+                item = m.get_item(i, j)
+                if i == j:
+                    D.set_item(i, j, item)
+                elif i > j:
+                    L.set_item(i, j, item)
+                else:
+                    U.set_item(i, j, item)
+                 
+        return L, U, D
