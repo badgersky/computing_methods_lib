@@ -26,3 +26,6 @@ class Vector:
         num = float(num)
         if isinstance(i, int) and isinstance(num , float):
             self._v[i] = num
+
+    def max_norm(self) -> float:
+        return max([abs(el) for el in self._v])

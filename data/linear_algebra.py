@@ -53,3 +53,26 @@ class LinearAlgebra():
 
         return res
     
+    @staticmethod
+    def mult_ms(m: Matrix, s: float) -> Matrix:
+        if m.size() == (0, 0):
+            return m
+
+        res = Matrix([[s * el for el in row] for row in m])
+        return res
+    
+    @staticmethod
+    def mult_mv(m: Matrix, v: Vector) -> Vector:
+        if m.size()[0] != v.size():
+            raise ValueError('Matrix and Vector cannot be multiplied')
+        
+        res = Vector([0. for _ in range(v.size())])
+        lim = v.size()
+        for i in range(lim):
+            tmp = 0.
+            for j in range(lim):
+                tmp += m.get_item(i, j) * v.get_item(j)
+            res.set_item(i, tmp)
+
+        return res
+    
