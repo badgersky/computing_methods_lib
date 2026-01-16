@@ -1,43 +1,50 @@
 from data.matrix import Matrix
 from data.vector import Vector
-from data.linear_algebra import LinearAlgebra as LA
-from domain.solver_interface import SolverInterface
 from domain.jacoby import Jacoby
 from domain.gauss_seidel import GaussSeidel
 from domain.sor import SOR
+from presentation.input_provider import InputProvider
+from domain.strategy_context import Context
 
 if __name__ == '__main__':
-    raw_A = [[50, 5, 4, 3, 2], [1, 40, 1, 2, 3], [4, 5, 30, -5, -4], [-3, -2, -1, 20, 0], [1, 2, 3, 4, 30]]
-    raw_b = [140, 67, 62, 89, 153]
-    raw_x = [6, 6, 6, 6, 6]
+    input_provider = InputProvider()
+    strategy_context = Context()
 
-    # m1 = Matrix([[1, 2, 3, 4], [3, 4, 4, 5]])
-    # m2 = Matrix([[1, 5, 2, 5], [1, 1, 1, 1]])
-    # m3 = Matrix([[1, 0], [0, 1], [2, 4], [5, 6]])
-    # m4 = Matrix([[1, 2, 3, 4], [4, 5, 6, 7], [7, 8, 9, 10], [8, 9, 10, 11]])
-    # v1 = Vector([1, 2, 3, 4])
-    # v2 = Vector([1, 1, 1, 1])
+    while True:
+        print('\n--- Solve a new system of equations ---\n')
 
-    # print(f'{LA.sub_matrix(m1, m2)}')
-    # print(f'{LA.sub_vectors(v1, v2)}')
-    # print(f'{LA.sum_vectors(v1, v2)}')
-    # print(f'{LA.mult_mm(m1, m3)}')
-    # print(f'{LA.mult_mv(m1, v2)}')
-    # L, U, D = LA.decompose_LUD(m4)
-    # print(m4)
-    # print(L)
-    # print(U)
-    # print(D)
+        n = input_provider.enter_size()
+        raw_A = input_provider.enter_matrix(n)
+        raw_b = input_provider.enter_vector(n, 'b')
+        raw_x0 = input_provider.enter_vector(n, 'x0')
 
-    A = Matrix(raw_A)
-    b = Vector(raw_b)
-    x = Vector(raw_x)
-    solver1 = Jacoby(A, b, x, 60, 1e-10, 1e-10)
-    solver2 = GaussSeidel(A, b, x, 60, 1e-10, 1e-10)
-    solver3 = SOR(A, b, x, 60, 1e-10, 1e-10, 0.5)
-    x_sol1 = solver1.solve()
-    x_sol2 = solver2.solve()
-    x_sol3 = solver3.solve()
-    print(x_sol1)
-    print(x_sol2)
-    print(x_sol3)
+        A = Matrix(raw_A)
+        b = Vector(raw_b)
+        x0 = Vector(raw_x0)
+
+        method = input_provider.choose_method()
+
+        max_iter = input_provider.enter_max_iterations()
+        eps1 = input_provider.enter_accuracy('eps1')
+        eps2 = input_provider.enter_accuracy('eps2')
+
+        w = None
+        if method == 3:
+            w = input_provider.enter_w()
+
+        if method == 1:
+            strategy_context.strat = Jacoby(A, b, x0, max_iter, eps1, eps2)
+        elif method == 2:
+            strategy_context.start = GaussSeidel(A, b, x0, max_iter, eps1, eps2)
+        elif method == 3:
+            strategy_context.strat = SOR(A, b, x0, max_iter, eps1, eps2, w)
+        else:
+            raise ValueError('Unknown method chosen')
+        
+        x_sol = strategy_context.solve()
+        print(f'Solution"\n{x_sol}')
+
+        again = input('\nDo you want to solve another system? (y/n): ').strip().lower()
+        if again != 'y':
+            print('Exiting program.')
+            break

@@ -79,3 +79,14 @@ class InputProvider():
                 return vector
             except ValueError:
                 print('All elements must be valid numbers.')
+
+    def enter_w(self) -> float:
+        while True:
+            try:
+                w = float(input('Enter relaxation parameter w for SOR (0 < w < 2): '))
+                if w <= 0 or w >= 2:
+                    print('w must be a number between 0 and 2 (exclusive).')
+                    continue
+                return w
+            except ValueError:
+                print('Invalid input. Please enter a number.')
