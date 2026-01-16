@@ -15,7 +15,7 @@ class SOR(SolverInterface):
         self.eps1 = eps1
         self.eps2 = eps2
 
-    def solve(self):
+    def solve(self) -> Vector:
         r, _ = self.D.size()
         wD = LA.mult_ms(self.D, (1. / self.w))
         LwD = LA.sum_matrix(self.L, wD)

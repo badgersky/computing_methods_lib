@@ -14,7 +14,7 @@ class GaussSeidel(SolverInterface):
         self.eps1 = eps1
         self.eps2 = eps2
 
-    def solve(self):
+    def solve(self) -> Vector:
         r, _ = self.D.size()
         LD = LA.sum_matrix(self.L, self.D)
         mU = LA.mult_ms(self.U, -1.)
