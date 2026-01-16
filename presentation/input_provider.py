@@ -16,30 +16,66 @@ class InputProvider():
                 return int(ans)
             print('Wrong input, try again')
 
-    def enter_matrix(self) -> List[List[float]]:
+    def enter_size(self) -> int:
         while True:
             try:
-                n = int(input('Enter the number of rows: '))
-                m = int(input('Enter the number of columns: '))
-                if n <= 0 or m <= 0:
-                    print('Number of rows and columns must be positive integers.')
+                n = int(input('Enter size of a system: '))
+                if n <= 0:
+                    print('Size must be a positive integer.')
                     continue
-
-                matrix = []
-                for i in range(n):
-                    while True:
-                        row_str = input(f'Enter row {i+1} with {m} numbers separated by spaces: ')
-                        row_items = row_str.strip().split()
-                        if len(row_items) != m:
-                            print(f'Row must have exactly {m} numbers.')
-                            continue
-                        try:
-                            row = [float(x) for x in row_items]
-                            matrix.append(row)
-                            break
-                        except ValueError:
-                            print('All elements must be valid numbers.')
-                return matrix
+                return n
             except ValueError:
-                print('Invalid input. Please enter positive integers for number of rows and columns.')
-        
+                print('Invalid input. Please enter a positive integer.')
+
+    def enter_max_iterations(self) -> int:
+        while True:
+            try:
+                max_iter = int(input('Enter maximum number of iterations: '))
+                if max_iter <= 0:
+                    print('Number of iterations must be a positive integer.')
+                    continue
+                return max_iter
+            except ValueError:
+                print('Invalid input. Please enter a positive integer.')
+
+    def enter_accuracy(self, name: str) -> float:
+        while True:
+            try:
+                eps = float(input(f'Enter accuracy {name}: '))
+                if eps <= 0:
+                    print('Accuracy must be a positive number.')
+                    continue
+                return eps
+            except ValueError:
+                print('Invalid input. Please enter a number.')
+
+    def enter_matrix(self, n: int) -> List[List[float]]:
+        print(f'Enter a {n}x{n} matrix row by row (numbers separated by spaces):')
+        matrix = []
+        for i in range(n):
+            while True:
+                row_str = input(f'Row {i+1}: ')
+                row_items = row_str.strip().split()
+                if len(row_items) != n:
+                    print(f'Row must have exactly {n} numbers.')
+                    continue
+                try:
+                    row = [float(x) for x in row_items]
+                    matrix.append(row)
+                    break
+                except ValueError:
+                    print('All elements must be valid numbers.')
+        return matrix
+
+    def enter_vector(self, n: int, name: str) -> List[float]:
+        while True:
+            vec_str = input(f'Enter {n} numbers for vector {name}, separated by spaces: ')
+            vec_items = vec_str.strip().split()
+            if len(vec_items) != n:
+                print(f'You must enter exactly {n} numbers.')
+                continue
+            try:
+                vector = [float(x) for x in vec_items]
+                return vector
+            except ValueError:
+                print('All elements must be valid numbers.')

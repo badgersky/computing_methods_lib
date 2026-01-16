@@ -2,7 +2,7 @@ from domain.solver_interface import SolverInterface
 
 class Context():
 
-    def __init__(self, strat: SolverInterface) -> None:
+    def __init__(self, strat: SolverInterface | None) -> None:
         self._strat = strat
 
     @property
