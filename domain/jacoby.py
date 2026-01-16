@@ -22,20 +22,20 @@ class Jacoby(SolverInterface):
 
         M = LA.mult_mm(mDr, LU)
         c = LA.mult_mv(Dr, self.b)
+
         i = 0
         while i < self.n:
             xn = LA.sum_vectors(LA.mult_mv(M, self.x), c)
 
             diff = LA.sub_vectors(xn, self.x)
-            r = LA.sub_vectors(self.b, LA.mult_mv(self.A, xn))
-
+            re = LA.sub_vectors(self.b, LA.mult_mv(self.A, xn))
             norm_diff = diff.max_norm()
-            norm_r = r.max_norm()
+            norm_r = re.max_norm()
             if norm_diff < self.eps1 and norm_r < self.eps2:
                 self.x = xn
                 break 
 
             self.x = xn
             i += 1
-
+        
         return self.x
