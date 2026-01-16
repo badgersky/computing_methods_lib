@@ -13,5 +13,5 @@ class Context():
     def strat(self, new_s: SolverInterface) -> None:
         self._strat = new_s
 
-    def solve(self, ):
-        
+    def solve(self):
+        return self._strat.solve()
