@@ -73,7 +73,8 @@ class LinearAlgebra():
         if m.size() == (0, 0):
             return m
 
-        res = Matrix([[s * el for el in row] for row in m])
+        r, c = m.size()
+        res = Matrix([[s * m.get_item(i, j) for j in range(c)] for i in range(r)])
         return res
     
     @staticmethod

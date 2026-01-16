@@ -1,7 +1,7 @@
 from data.linear_algebra import LinearAlgebra as LA
 from data.matrix import Matrix
 from data.vector import Vector
-from solver_interface import SolverInterface
+from domain.solver_interface import SolverInterface
 
 class Jacoby(SolverInterface):
      
@@ -15,7 +15,8 @@ class Jacoby(SolverInterface):
         self.eps2 = eps2
 
     def solve(self) -> Vector:
-        Dr = Matrix([[1 / el for el in row if el != 0] for row in self.D])
+        r, c = self.D.size()
+        Dr = Matrix([[1 / self.D.get_item(i, j)  if self.D.get_item(i, j) != 0. else 0. for j in range(c)] for i in range(r)])
         LU = LA.sum_matrix(self.L, self.U)
         mDr = LA.mult_ms(Dr, -1.)
 
