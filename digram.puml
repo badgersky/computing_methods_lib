@@ -1,0 +1,107 @@
+@startuml
+package "Data Layer" {
+    class Matrix {
+        - _m: List[List[float]]
+        + size(): tuple[int,int]
+        + get_item(i:int, j:int): float
+        + set_item(i:int, j:int, num:float)
+        + get_row(i:int): List[float]
+    }
+
+    class Vector {
+        - _v: List[float]
+        + size(): int
+        + get_item(i:int): float
+        + set_item(i:int, num:float)
+        + max_norm(): float
+    }
+
+    class LinearAlgebra <<utility>> {
+        + sum_vectors(v1: Vector, v2: Vector): Vector
+        + sub_vectors(v1: Vector, v2: Vector): Vector
+        + sum_matrix(m1: Matrix, m2: Matrix): Matrix
+        + sub_matrix(m1: Matrix, m2: Matrix): Matrix
+        + mult_mm(m1: Matrix, m2: Matrix): Matrix
+        + mult_ms(m: Matrix, s: float): Matrix
+        + mult_mv(m: Matrix, v: Vector): Vector
+        + decompose_LUD(m: Matrix): (Matrix, Matrix, Matrix)
+    }
+}
+
+package "Domain Layer" {
+    interface SolverInterface {
+        + solve(): Vector
+    }
+
+    class Jacoby {
+        - A: Matrix
+        - L: Matrix
+        - U: Matrix
+        - D: Matrix
+        - x: Vector
+        - b: Vector
+        - n: int
+        - eps1: float
+        - eps2: float
+        + solve(): Vector
+    }
+
+    class GaussSeidel {
+        - A: Matrix
+        - L: Matrix
+        - U: Matrix
+        - D: Matrix
+        - x: Vector
+        - b: Vector
+        - n: int
+        - eps1: float
+        - eps2: float
+        + solve(): Vector
+    }
+
+    class SOR {
+        - A: Matrix
+        - L: Matrix
+        - U: Matrix
+        - D: Matrix
+        - x: Vector
+        - b: Vector
+        - n: int
+        - w: float
+        - eps1: float
+        - eps2: float
+        + solve(): Vector
+    }
+
+    class Context {
+        - _strat: SolverInterface
+        + strat
+        + solve()
+    }
+}
+
+package "Presentation Layer" {
+    class InputProvider {
+        + choose_method(): int
+        + enter_size(): int
+        + enter_max_iterations(): int
+        + enter_accuracy(name: str): float
+        + enter_matrix(n: int): List[List[float]]
+        + enter_vector(n: int, name: str): List[float]
+        + enter_w(): float
+    }
+}
+
+SolverInterface <|.. Jacoby
+SolverInterface <|.. GaussSeidel
+SolverInterface <|.. SOR
+
+Context --> SolverInterface : aggregation
+
+Jacoby --> LinearAlgebra : uses
+SOR --> LinearAlgebra : uses
+GaussSeidel --> LinearAlgebra : uses
+
+LinearAlgebra --> Matrix : uses
+LinearAlgebra --> Vector : uses
+@enduml
