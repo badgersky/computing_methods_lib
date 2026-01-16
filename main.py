@@ -4,6 +4,7 @@ from data.linear_algebra import LinearAlgebra as LA
 from domain.solver_interface import SolverInterface
 from domain.jacoby import Jacoby
 from domain.gauss_seidel import GaussSeidel
+from domain.sor import SOR
 
 if __name__ == '__main__':
     raw_A = [[50, 5, 4, 3, 2], [1, 40, 1, 2, 3], [4, 5, 30, -5, -4], [-3, -2, -1, 20, 0], [1, 2, 3, 4, 30]]
@@ -33,7 +34,10 @@ if __name__ == '__main__':
     x = Vector(raw_x)
     solver1 = Jacoby(A, b, x, 60, 1e-10, 1e-10)
     solver2 = GaussSeidel(A, b, x, 60, 1e-10, 1e-10)
+    solver3 = SOR(A, b, x, 60, 1e-10, 1e-10, 0.5)
     x_sol1 = solver1.solve()
     x_sol2 = solver2.solve()
+    x_sol3 = solver3.solve()
     print(x_sol1)
     print(x_sol2)
+    print(x_sol3)
