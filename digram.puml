@@ -105,13 +105,19 @@ package "Presentation Layer" {
 SolverInterface <|.. Jacoby
 SolverInterface <|.. GaussSeidel
 SolverInterface <|.. SOR
-
-Context --> SolverInterface : aggregation
+Context o-- SolverInterface : aggregation
 
 Jacoby --> LinearAlgebra : uses
 SOR --> LinearAlgebra : uses
 GaussSeidel --> LinearAlgebra : uses
-
 LinearAlgebra --> Matrix : uses
 LinearAlgebra --> Vector : uses
+
+Container o-- InputProvider : aggregation
+Container o-- Context : aggregation
+Container o-- Jacoby : aggregation
+Container o-- GaussSeidel : aggregation
+Container o-- SOR : aggregation
+Container o-- Matrix : aggregation
+Container o-- Vector : aggregation
 @enduml

@@ -35,7 +35,7 @@ if __name__ == '__main__':
         if method == 1:
             strategy_context.strat = Jacoby(A, b, x0, max_iter, eps1, eps2)
         elif method == 2:
-            strategy_context.start = GaussSeidel(A, b, x0, max_iter, eps1, eps2)
+            strategy_context.strat = GaussSeidel(A, b, x0, max_iter, eps1, eps2)
         elif method == 3:
             strategy_context.strat = SOR(A, b, x0, max_iter, eps1, eps2, w)
         else:
