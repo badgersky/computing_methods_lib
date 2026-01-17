@@ -90,6 +90,16 @@ package "Presentation Layer" {
         + enter_vector(n: int, name: str): List[float]
         + enter_w(): float
     }
+
+    class Container {
+        + input_provider: InputProvider
+        + strategy_context: Context
+        + jacoby: Jacoby
+        + gauss_seidel: GaussSeidel
+        + sor: SOR
+        + matrix: Matrix
+        + vector: Vector
+    }
 }
 
 SolverInterface <|.. Jacoby

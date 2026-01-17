@@ -1,14 +1,14 @@
-from data.matrix import Matrix
-from data.vector import Vector
-from domain.jacoby import Jacoby
-from domain.gauss_seidel import GaussSeidel
-from domain.sor import SOR
-from presentation.input_provider import InputProvider
-from domain.strategy_context import Context
+from presentation.container import Container
 
 if __name__ == '__main__':
-    input_provider = InputProvider()
-    strategy_context = Context()
+    container = Container()
+    input_provider = container.input_provider()
+    strategy_context = container.strategy_context()
+    Matrix = container.matrix
+    Vector = container.vector
+    Jacoby = container.jacoby
+    GaussSeidel = container.gauss_seidel
+    SOR = container.sor
 
     while True:
         print('\n--- Solve a new system of equations ---\n')
